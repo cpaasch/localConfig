@@ -1,0 +1,28 @@
+[user]
+	name = Christoph Paasch
+	email = christoph.paasch@uclouvain.be
+[core]
+	editor = vim
+	abbrev = 12
+
+[sendemail]
+	smtpserver = /home/christoph/bin/msmtpq
+	aliasesfile = /home/christoph/.git_aliases
+	aliasfiletype = mutt
+	confirm = always
+[merge]
+	renamelimit = 5000
+	tool = meld
+[color]
+	diff = auto
+	ui = true
+[push]
+	default = simple
+[pull]
+	rebase = true
+[http]
+	sslVerify = false
+[rerere]
+	enabled = true
+[alias]
+	l = log --graph --pretty=format:'%Cred%h%Creset (%s) %C(yellow)%d%Creset %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative

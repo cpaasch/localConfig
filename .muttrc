@@ -1,0 +1,164 @@
+# source $HOME/.mutt/mutt-colors-solarized/mutt-colors-solarized-light-16.muttrc
+
+set mbox_type   = Maildir
+set sendmail    = ~/bin/my_msmtp
+
+set folder      = ~/Mail/
+set spoolfile   = "+Gmail/INBOX"
+set mbox        = "+Gmail/[Gmail].All Mail"
+set postponed   = "+Gmail/[Gmail].Drafts"
+
+set tmpdir	= ~/.mutt/tmp
+
+unset beep
+
+source ~/.mailboxes
+
+# Caching to speed up
+set header_cache = ~/.mutt/cache/headers
+set message_cachedir = ~/.mutt/cache/bodies
+
+# main options
+set realname = "Christoph Paasch"
+set from = "christoph.paasch@gmail.com"
+set reverse_name
+set use_from = yes
+set mail_check = 5
+set envelope_from = yes
+
+set my_hdr = "Bcc: christoph.paasch@gmail.com"
+set record = "+Gmail/INBOX"
+
+unset move           # gmail does that
+set delete           # don't ask, just do
+unset confirmappend  # don't ask, just do!
+set quit             # don't ask, just do!!
+unset mark_old       # read/new is good enough for me
+
+set timeout = 5
+set sleep_time = 0
+
+set imap_check_subscribed=yes
+set imap_peek=no
+
+# Side-Bar:
+set sidebar_delim   = '|'
+set sidebar_visible = yes
+set sidebar_width   = 30
+color sidebar_new color221 color233
+set sidebar_shortpath = yes
+
+macro index,pager b "<enter-command>toggle sidebar_visible<enter>"
+
+set status_chars  = " *%A"
+set status_format = "───[ Folder: %f ]───[%r%m messages%?n? (%n new)?%?d? (%d to delete)?%?t? (%t tagged)? ]───%>─%?p?( %p postponed )?───"
+
+bind index,pager <down>   sidebar-next
+bind index,pager <up>     sidebar-prev
+bind index,pager <right>  sidebar-open
+
+# Index Key Bindings ---------------------------------
+bind index R        group-reply
+bind index <space>  collapse-thread
+macro index <backtab> <previous-new-then-unread>
+
+# Ctrl-R to mark all as read
+macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
+
+# Ctrl-S to toggle the star-flag
+macro index,pager \Cs "<clear-flag>!" "Unset the star"
+macro index,pager S "<set-flag>!" "Set the star"
+
+# Sync email
+macro index O "<shell-escape>offlineimap -o<enter>"           "run offlineimap to sync all mail"
+macro index o "<shell-escape>offlineimap -qof [Gmail]/Starred<enter>" "run offlineimap to sync inbox"
+
+# Saner copy/move dialogs
+macro index C "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
+macro index M "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
+
+# Search
+macro index N "<search-opposite>" "Search in opposite direction"
+macro index \Cn "<toggle-new>" "Toggle New"
+
+# Apply patch!
+macro index \ep '<pipe-entry>save_patch.sh ; apply_patch.sh' 
+macro index \eP '<pipe-entry>save_patch.sh ; apply_patch_nn.sh' 
+set pipe_decode
+
+# Header Options -------------------------------------
+ignore *                                # ignore all headers
+unignore from: to: cc: date: subject:   # show only these
+unignore Message-Id
+unignore X-Keywords
+unhdr_order *                           # some distros order things by default
+hdr_order from: to: cc: date: subject:  # and in this order
+
+# sort/threading
+set sort     = threads
+set sort_aux = reverse-last-date-received
+
+# look and feel
+set pager_index_lines = 8
+set pager_context     = 5
+#set wrap = 120
+set pager_stop
+set menu_scroll
+set smart_wrap
+set tilde
+unset markers
+
+# composing 
+set fcc_attach
+#set mime_forward=yes
+set forward_format = "Fwd: %s"
+set include
+set forward_edit = no
+set fast_reply = yes
+set editor="vim -c 'set filetype=mail' -c 'set textwidth=76'"
+
+hdr_order from: to: cc: date: subject: # and in this order
+
+macro index,pager B "<bounce-message>" "Bounce this message!"
+
+# Sending
+set sendmail_wait = 1
+
+# Address-book
+set query_command="goobook query '%s'"
+bind editor <Tab> complete-query
+macro index,pager \Ca "<pipe-message>goobook add<return>" "add the sender address to Google contacts"
+
+# Viewing
+auto_view text/html
+alternative_order text/enriched text/plain text
+macro pager \cb <pipe-entry>'urlview'<enter> 'Follow links with urlview'
+set wait_key=no
+set mark_old=no
+
+# index-customizations
+set date_format="%d/%m/%y - %T"
+set index_format="%Z %s%* %-20.20n %-20.20t %X %D"
+set attach_format="%u%D%I %t%4n %T%.40d%> [%m/%M, %.6e%?C?, %C?, %s] "
+
+# pager diff-highlightning
+color body green default "^diff \-.*"
+color body green default "^index [a-f0-9].*"
+color body green default "^\-\-\- .*"
+color body green default "^[\+]{3} .*"
+color body cyan default "^[\+][^\+]+.*"
+color body red  default "^\-[^\-]+.*"
+color body brightblue default "^@@ .*"
+
+# notmuch
+macro index <F8> \
+      "<enter-command>unset wait_key<enter><shell-escape>notmuch-mutt -r --prompt search<enter><change-folder-readonly>~/.cache/notmuch/mutt/results<enter>" \
+      "notmuch: search mail"
+macro index,pager <F9> \
+      "<enter-command>unset wait_key<enter><pipe-message>notmuch-mutt -r thread<enter><change-folder-readonly>~/.cache/notmuch/mutt/results<enter><enter-command>set wait_key<enter>" \
+      "notmuch: reconstruct thread"
+
+# Attachments
+macro attach s <save-entry><kill-line>/tmp/<enter>yes<enter>
+
+set print_command="$HOME/bin/mutt_print.sh"

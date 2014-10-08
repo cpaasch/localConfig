@@ -1,0 +1,14 @@
+alias cpaasch Christoph Paasch <christoph.paasch@gmail.com>
+alias mptcp mptcp-dev <mptcp-dev@listes.uclouvain.be>
+alias jaakkok Jaakko Korkeaniemi <jaakko.korkeaniemi@aalto.fi>
+alias gregoryd Gregory Detal <gregory.detal@uclouvain.be>
+alias octavianp Octavian Purdila <octavian.purdila@intel.com>
+alias netdev netdev@vger.kernel.org
+alias davem David Miller <davem@davemloft.net>
+alias ericd Eric Dumazet <eric.dumazet@gmail.com>
+alias benjaminh Benjamin Hesmans <benjamin.hesmans@uclouvain.be>
+alias yvanc Yvan Coene <yvan.coene@student.uclouvain.be>
+alias stephenh Stephen Hemminger <stephen@networkplumber.org>
+alias rustyr Rusty Russel <rusty@rustcorp.com.au>
+alias yuchungc Yuchung Cheng <ycheng@google.com>
+alias jeffk Jeff Kirsher <jeffrey.t.kirsher@intel.com>
